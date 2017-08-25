@@ -1,75 +1,45 @@
 package main.java.com.practice;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class PracticeProgram {
 
-    private void Count(int s, String str)
+    public void Count(int s, String str)
     {
-        //alphabet array
+        HashMap<Character, Integer> cCount = new HashMap<Character, Integer>(str.length());
         String lower = str.toLowerCase();
-        char[] ch = lower.toCharArray();
-        int size = 26;
-        char[] alpha = new char[size];
-        int[] tally = new int[size];
-        for(int i=0; i<size; i++)
-        {
-            alpha[i] = (char)(97+i);
-            tally[i] = 0;
-        }
+        char[] cArr = lower.toCharArray();
 
-        for (int i=0; i<s; i++)
+        for(int i=0; i<str.length(); i++)
         {
-            for(int j=0; j<size; j++)
+            if(cCount.containsKey(cArr[i]))
             {
-                if(ch[i] == alpha[j])
-                {
-                    tally[j]++;
-                }
+                cCount.put(cArr[i], cCount.get(cArr[i])+1);
+            }else{
+                cCount.put(cArr[i], 1);
             }
         }
 
-        int ucount=0;
-        for(int i=0; i<size;i++)
+        for(Character key:cCount.keySet())
         {
-            if(tally[i] > 0)
-            {
-                ucount++;
-            }
+            System.out.println(key+"= "+cCount.get(key));
         }
-
-        char[] uarr = new char[ucount];
-        int[] tallyshort = new int[ucount];
-        int iter=0;
-        for(int i=0; i<size; i++)
-        {
-            if(tally[i] > 0)
-            {
-                tallyshort[iter] = tally[i];
-                uarr[iter] = alpha[i];
-                iter++;
-            }
-        }
-
-        System.out.println("\n Letter Count: ");
-        for(int i=0;i<ucount;i++)
-            System.out.println(uarr[i]+": "+tallyshort[i]);
-
-
-
     }
 
-    private char[] Reverse(int n, char[] c)
+    public char[] Reverse(int n, char[] c)
     {
-        char[] rev = new char[n];
-        for (int i = 0; i< n; i++)
+        char tmp;
+        for (int i = 0; i< n/2; i++)
         {
-            rev[i] = c[n-1-i];
+            tmp = c[i];
+            c[i] = c[n-1-i];
+            c[n-1-i] = tmp;
         }
-        return rev;
+        return c;
     }
 
 
-    private String Prompt()
+    public String Prompt()
     {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please input a word: ");
@@ -78,16 +48,14 @@ public class PracticeProgram {
     }
 
 
-    private boolean Iterate(boolean c, int s, char[] word)
+    public boolean Iterate(int s, char[] word)
     {
         for(int i = 0; i < s; i++)
         {
             if ( word[i] != word[s-1-i])
-            {
-                c = false;
-            }
+                return false;
         }
-        return c;
+        return true;
     }
 
 
@@ -102,7 +70,7 @@ public class PracticeProgram {
         char[] cword = word.toCharArray();
 
         //Palindrome Check Here
-        isPalindrome = practice.Iterate(isPalindrome, word.length(), cword);
+        isPalindrome = practice.Iterate(word.length(), cword);
 
         //REVERSE HERE
         char[] reversed = practice.Reverse(word.length(), cword);
